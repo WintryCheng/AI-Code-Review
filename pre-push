@@ -1,0 +1,22 @@
+#!/bin/sh
+# 这是一个示例 pre-push 钩子，它会在推送之前执行 git-diff-all.sh 脚本。
+
+# 定义脚本路径（根据实际情况调整）
+GIT_DIFF_ALL_SCRIPT="docs/git-diff-all.sh"
+
+# 检查脚本是否存在
+if [ ! -f "$GIT_DIFF_ALL_SCRIPT" ]; then
+    echo "Error: $GIT_DIFF_ALL_SCRIPT not found."
+    exit 1
+fi
+
+echo "Running git-diff-all.sh before push..."
+
+# 执行 git-diff-all.sh 脚本，并检查其退出状态
+if ! "$GIT_DIFF_ALL_SCRIPT"; then
+    echo "git-diff-all.sh failed. Push aborted."
+    exit 1
+fi
+
+echo "git-diff-all.sh completed successfully. Proceeding with push."
+exit 0
